@@ -2,30 +2,25 @@
 
 namespace C95\Infrastructure;
 
+use Pimple;
+
 class Resource extends \Tonic\Resource {
 
+    /**
+     * @var Pimple
+     */
     protected $container;
 
-    public function __construct($app, $request, array $urlParams) {
-        parent::__construct($app, $request, $urlParams);
-
-        $this->init();
-    }
-
-    protected function init() {
+    public function init() {
         // Placeholder method
     }
 
-    public function setContainer($container) {
+    public function setContainer(Pimple $container) {
         $this->container = $container;
     }
 
-    protected function getContainer($containerValue = null) {
-        if(is_null($containerValue)) {
-            return $this->container;
-        }
-
-        return $this->container[$containerValue];
+    protected function getContainer() {
+        return $this->container;
     }
 
 }

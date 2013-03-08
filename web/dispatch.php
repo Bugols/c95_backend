@@ -16,8 +16,9 @@ try {
 	$resource = $app->getResource($request);
 
 	$resource->setContainer($container);
-	$response = $resource->exec();
+    $resource->init();
 
+	$response = $resource->exec();
 } catch (Tonic\NotFoundException $e) {
 	$response = new Tonic\Response(404, $e->getMessage());
 } catch (Tonic\UnauthorizedException $e) {

@@ -2,20 +2,20 @@
 
 namespace C95\Infrastructure;
 
+use Pimple;
 use Doctrine\ODM\MongoDB\DocumentManager;
 
 abstract class Service {
 
+    /** @var Pimple */
+    private $container;
+
     /** @var DocumentManager */
     private $documentManager;
 
-    public function __construct(DocumentManager $documentManager) {
-        $this->setDocumentManager($documentManager);
-    }
-
-    /** @param $documentManager DocumentManager */
-    public function setDocumentManager(DocumentManager $documentManager) {
-        $this->documentManager = $documentManager;
+    public function __construct(Pimple $container) {
+        $this->container = $container;
+        $this->documentManager = $container['odm'];
     }
 
     /** @return DocumentManager */

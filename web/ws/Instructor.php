@@ -11,13 +11,11 @@ use C95\Domain\Service\InstructorService;
  */
 class Instructor extends \C95\Infrastructure\Resource {
 
-    /**
-     * @var InstructorService
-     */
+    /** @var InstructorService */
     private $service;
 
-    protected function init() {
-        $this->service = new InstructorService($this->getContainer('odm'));
+    public function init() {
+        $this->service = new InstructorService($this->getContainer());
     }
 
     /**
@@ -25,9 +23,8 @@ class Instructor extends \C95\Infrastructure\Resource {
      * @json
      */
     public function display() {
-        $instructor = $this->container['odm']->getRepository('\C95\Domain\Instructor')->findById($this->id)->hydrate(false);
-
-        return new \Tonic\Response(200, $instructor->toArray());
+        $instructor = $this->service->findById($this->id);
+        return new \Tonic\Response(200, $instructor->hydrate(false)->toArray());
     }
 
     /**

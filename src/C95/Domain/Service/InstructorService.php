@@ -2,18 +2,21 @@
 
 namespace C95\Domain\Service;
 
+use Doctrine\ODM\MongoDB\Cursor;
+
 class InstructorService extends \C95\Infrastructure\Service {
 
+    /** @return \Doctrine\ODM\MongoDB\Cursor */
     public function findAll() {
-        return $this->dm()->getRepository('Instructor')->findAll();
+        return $this->dm()->getRepository('C95\Domain\Instructor')->findAll();
     }
 
     /**
-     * @param $instructorId
-     * @return mixed
+     * @param string $instructorId
+     * @return \Doctrine\ODM\MongoDB\Cursor
      */
     public function findById($instructorId) {
-        return $this->container['odm']->getRepository('\C95\Domain\Instructor')->findOneById($instructorId)->hydrate(false);
+        return $this->dm()->getRepository('C95\Domain\Instructor')->findById($instructorId);
     }
 
 }

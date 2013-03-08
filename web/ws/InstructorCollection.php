@@ -7,23 +7,29 @@ use Tonic\Response;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 
+use C95\Domain\Service\InstructorService;
+
 /**
  * @uri /instructor
  */
-class InstructorCollection extends \Tonic\Resource {
+class InstructorCollection extends \C95\Infrastructure\Resource {
+
+    /**
+     * @var InstructorService
+     */
+    private $service;
+
+    public function init() {
+        $this->service = new InstructorService($this->getContainer());
+    }
 
 	/**
 	 * @method GET
      * @json
 	 */
 	public function all() {
-        /** @var $repo DocumentRepository */
-        $repo = $this->container['odm']->getRepository('C95\Domain\Instructor');
-
-        /** @var $instructor \Doctrine\ODM\MongoDB\Cursor */
-        $instructors = $repo->findAll()->hydrate(false);
-
-        return new Response(Response::OK, $instructors->toArray());
+        $instructors = $this->service->findAll();
+        return new Response(Response::OK, $instructors->hydrate(false)->toArray());
 	}
 
     /**
@@ -43,12 +49,13 @@ class InstructorCollection extends \Tonic\Resource {
     }
 
     public function json() {
-        $this->before(function ($request) {
+        $this->before(function($request) {
             if ($request->contentType == "application/json") {
                 $request->data = json_decode($request->data);
             }
         });
-        $this->after(function ($response) {
+
+        $this->after(function($response) {
             $response->contentType = "application/json";
             $response->body = json_encode($response->body);
         });

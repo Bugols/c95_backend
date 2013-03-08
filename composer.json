@@ -1,0 +1,11 @@
+{
+    "autoload": {
+        "psr-0": {"C95": "src/"}
+    },
+	"require": {
+		"doctrine/mongodb": "1.0.1",
+		"doctrine/mongodb-odm": "1.0.*@dev",
+		"peej/tonic": "dev-master",
+		"pimple/pimple": "v1.0.1"
+	}
+}

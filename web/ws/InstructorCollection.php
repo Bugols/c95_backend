@@ -48,17 +48,4 @@ class InstructorCollection extends \C95\Infrastructure\Resource {
         return new Response(Response::OK, $isCreated);
     }
 
-    public function json() {
-        $this->before(function($request) {
-            if ($request->contentType == "application/json") {
-                $request->data = json_decode($request->data);
-            }
-        });
-
-        $this->after(function($response) {
-            $response->contentType = "application/json";
-            $response->body = json_encode($response->body);
-        });
-    }
-
 }

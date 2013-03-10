@@ -7,11 +7,12 @@ use Tonic\Resource as BaseResource;
 
 class Resource extends BaseResource {
 
-    /**
-     * @var Pimple
-     */
+    /** @var Pimple */
     protected $container;
 
+    /**
+     * Initialize any resources at construction
+     */
     public function init() {
         // Placeholder method
     }

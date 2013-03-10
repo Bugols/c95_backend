@@ -1,0 +1,39 @@
+<?php
+
+namespace C95\Domain\Service\Web;
+
+use Tonic\Response;
+
+use C95\Infrastructure\Resource;
+use C95\Domain\Service\QualificationService;
+
+/**
+ * @uri /qualification
+ */
+class QualificationCollection extends Resource {
+
+    /** @var QualificationService */
+    private $service;
+
+    public function init() {
+        $this->service = new QualificationService($this->getContainer());
+    }
+
+	/**
+	 * @method GET
+     * @json
+	 */
+	public function all() {
+        return new Response(Response::OK, $this->service->findAll());
+	}
+
+    /**
+     * @method POST
+     * @json
+     */
+    public function create() {
+        $qualification = $this->deserializeToObject($this->request->data, 'C95\Domain\Qualification');
+        return new Response(Response::OK, $this->service->create($qualification));
+    }
+
+}

@@ -3,7 +3,6 @@
 namespace C95\Infrastructure;
 
 use Pimple;
-use JMS\Serializer\SerializerBuilder;
 use Tonic\Resource as BaseResource;
 
 class Resource extends BaseResource {
@@ -36,7 +35,7 @@ class Resource extends BaseResource {
     protected function serializeToJson($object) {
         /** @todo Create serializer handler for the Cursor class */
         if($object instanceof \Doctrine\MongoDB\Cursor) {
-            $object = array_values(iterator_to_array($object));
+            $object = iterator_to_array($object);
         }
 
         return $this->getContainer('serializer')->serialize($object, 'json');

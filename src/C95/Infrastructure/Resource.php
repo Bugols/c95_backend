@@ -42,7 +42,7 @@ class Resource extends BaseResource {
         return $this->getContainer('serializer')->serialize($object, 'json');
     }
 
-    public function deserializeToObject($serializedData, $className) {
+    protected function deserializeToObject($serializedData, $className) {
         return $this->getContainer('serializer')->deserialize($serializedData, $className, 'json');
     }
 

@@ -12,9 +12,7 @@ use C95\Domain\Service\InstructorService;
  */
 class InstructorCollection extends Resource {
 
-    /**
-     * @var InstructorService
-     */
+    /** @var InstructorService */
     private $service;
 
     public function init() {

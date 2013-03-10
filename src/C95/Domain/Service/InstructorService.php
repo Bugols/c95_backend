@@ -2,6 +2,7 @@
 
 namespace C95\Domain\Service;
 
+use Doctrine\ODM\MongoDB\DocumentNotFoundException;
 use Doctrine\ODM\MongoDB\Cursor;
 
 use C95\Infrastructure\Service;
@@ -46,10 +47,16 @@ class InstructorService extends Service {
 
     /**
      * @param string $instructorId
+     * @throws \Doctrine\ODM\MongoDB\DocumentNotFoundException
      * @return Instructor
      */
     public function remove($instructorId) {
         $instructor = $this->findById($instructorId);
+
+        if(is_null($instructor)) {
+            throw new DocumentNotFoundException('Instructor could not be removed. Reason: no Instructor was found with id: "'. $instructorId .'"');
+        }
+
         $this->dm()->remove($instructor);
         $this->dm()->flush();
 

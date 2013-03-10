@@ -38,6 +38,7 @@ class Instructor extends Resource {
 
     /**
      * @method DELETE
+     * @json
      */
     public function remove() {
         return new Response(Response::OK, $this->service->remove($this->id));

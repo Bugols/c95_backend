@@ -2,15 +2,26 @@
 
 namespace C95\Domain;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-
-/** @ODM\Document */
 class Qualification {
 
-    /** @ODM\Id */
-    private $id;
+    protected $id;
 
-    /** @ODM\String */
-    private $name;
+    protected $name;
+
+    public function setId($id) {
+        $this->id = $id;
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
 
 }

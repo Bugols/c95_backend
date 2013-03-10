@@ -1,0 +1,6 @@
+C95\Domain\Qualification:
+  properties:
+    id:
+      type: string
+    name:
+      type: string

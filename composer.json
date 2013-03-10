@@ -4,8 +4,10 @@
     },
 	"require": {
 		"doctrine/mongodb": "1.0.1",
-		"doctrine/mongodb-odm": "1.0.*@dev",
+		"doctrine/mongodb-odm": "1.0.*@beta",
 		"peej/tonic": "dev-master",
-		"pimple/pimple": "v1.0.1"
+		"pimple/pimple": "v1.0.1",
+        "jms/serializer": "dev-master",
+        "symfony/yaml": "v2.2.0"
 	}
 }

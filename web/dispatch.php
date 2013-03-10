@@ -6,7 +6,7 @@ $bootstrap = new Bootstrap();
 $container = $bootstrap->run();
 
 $app = new Tonic\Application(array(
-	'load' => array('ws/*.php')
+	'load' => array(__DIR__ . '/../src/C95/Domain/Service/Web/*.php')
 ));
 
 $request = new Tonic\Request();
@@ -26,7 +26,13 @@ try {
 	$response->wwwAuthenticate = 'Basic realm="My Realm"';
 } catch (Tonic\Exception $e) {
 	$response = new Tonic\Response($e->getCode(), $e->getMessage());
+} catch (\Exception $e) {
+    $response = new Tonic\Response($e->getCode(), get_class($e) . ': '. $e->getMessage() . PHP_EOL . PHP_EOL. $e->getTraceAsString());
 }
 
-$response->output();
-
+if(isset($_GET['debug'])) {
+    $responseObject = json_decode($response->body);
+    echo '<pre>' . json_encode($responseObject, JSON_PRETTY_PRINT) . '</pre>';
+} else {
+    $response->output();
+}

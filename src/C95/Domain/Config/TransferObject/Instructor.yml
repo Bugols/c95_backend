@@ -1,0 +1,10 @@
+C95\Domain\Instructor:
+  properties:
+    id:
+      type: string
+    firstName:
+      type: string
+    lastName:
+      type: string
+    qualifications:
+      type: ArrayCollection<C95\Domain\Qualification>

@@ -6,6 +6,12 @@ use Doctrine\MongoDB\Connection;
 use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
+use Doctrine\ODM\MongoDB\Mapping\Driver\YamlDriver;
+
+use JMS\Serializer\SerializerBuilder;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\Construction\UnserializeObjectConstructor;
+use C95\Infrastructure\JMS\Serializer\Construction\DoctrineObjectConstructor;
 
 /**
  * @todo Add configuration
@@ -29,6 +35,7 @@ class Bootstrap {
      */
     public function run() {
         $this->initDocumentManager();
+        $this->initSerializer();
 
         return $this->container;
     }
@@ -42,12 +49,23 @@ class Bootstrap {
             $config->setProxyNamespace('Proxies');
             $config->setHydratorDir(__DIR__ . '/../app/cache/hydrators');
             $config->setHydratorNamespace('Hydrators');
-            $config->setMetadataDriverImpl(AnnotationDriver::create(__DIR__ . '/../src/C95/Domain'));
+
+            $driver = new YamlDriver(array(__DIR__ . '/../src/C95/Domain/Config/Mapping'), '.yml');
+            $config->setMetadataDriverImpl($driver);
 
             return DocumentManager::create(new Connection(), $config);
         });
     }
 
-
+    protected function initSerializer() {
+        $this->container['serializer'] = $this->container->share(function($container) {
+            $serializer = SerializerBuilder::create()
+                ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy())
+                ->setObjectConstructor(new DoctrineObjectConstructor($container['odm'], new UnserializeObjectConstructor()))
+                ->addMetadataDir(__DIR__ . '/../src/C95/Domain/Config/TransferObject', 'C95\Domain')
+                ->build();
+            return $serializer;
+        });
+    }
 
 }

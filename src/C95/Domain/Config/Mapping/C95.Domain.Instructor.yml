@@ -1,0 +1,13 @@
+C95\Domain\Instructor:
+  type: document
+  fields:
+    id:
+      type: id
+      id: true
+    firstName:
+      type: string
+    lastName:
+      type: string
+  referenceMany:
+      qualifications:
+        targetDocument: C95\Domain\Qualification

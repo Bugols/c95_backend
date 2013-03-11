@@ -1,0 +1,6 @@
+C95\Domain\Instructor:
+  properties:
+    firstName:
+      - NotBlank: ~
+    lastName:
+      - NotBlank: ~

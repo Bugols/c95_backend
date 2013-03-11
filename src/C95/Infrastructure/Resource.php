@@ -5,10 +5,15 @@ namespace C95\Infrastructure;
 use Pimple;
 use Tonic\Resource as BaseResource;
 
+use JMS\Serializer\Exception\ValidationFailedException;
+
 class Resource extends BaseResource {
 
     /** @var Pimple */
     protected $container;
+
+    /** @var string */
+    public $classType = null;
 
     /**
      * Initialize any resources at construction
@@ -21,7 +26,7 @@ class Resource extends BaseResource {
         $this->container = $container;
     }
 
-    protected function getContainer($index = null) {
+    public function getContainer($index = null) {
         if(is_null($index)) {
             return $this->container;
         }
@@ -33,23 +38,40 @@ class Resource extends BaseResource {
         return $this->container[$index];
     }
 
-    protected function serializeToJson($object) {
+    public function handleResponse($response) {
         /** @todo Create serializer handler for the Cursor class */
-        if($object instanceof \Doctrine\MongoDB\Cursor) {
-            $object = iterator_to_array($object);
+        if($response->body instanceof \Doctrine\MongoDB\Cursor) {
+            $response->body = iterator_to_array($response->body);
         }
 
-        return $this->getContainer('serializer')->serialize($object, 'json');
+        $response->contentType = "application/json";
+        $response->body = $this->getContainer('serializer')->serialize($response->body, 'json');
     }
 
-    protected function deserializeToObject($serializedData, $className) {
-        return $this->getContainer('serializer')->deserialize($serializedData, $className, 'json');
+    public function handleRequest($request) {
+        if($request->contentType != "application/json") {
+            throw new \InvalidArgumentException('Wrong content type found in HTTP headers, expected application/json but got '.$request->contentType);
+        }
+
+        if(strlen($this->classType) < 1) {
+            throw new \InvalidArgumentException('Class type annotation is missing/wrong in Resource class. Got value: '.$this->classType);
+        }
+
+        $document = $this->getContainer('serializer')->deserialize($request->data, $this->classType, 'json');
+        $violations = $this->getContainer('validator')->validate($document);
+
+        if(count($violations) > 0) {
+            throw new ValidationFailedException($violations);
+        }
+
+        $request->data = $document;
     }
 
-    public function json() {
-        $this->after(function($response) {
-            $response->contentType = "application/json";
-            $response->body = $this->serializeToJson($response->body);
+    public function type($classType) {
+        $this->classType = (string) $classType;
+
+        $this->before(function($request) {
+            $this->handleRequest($request);
         });
     }
 

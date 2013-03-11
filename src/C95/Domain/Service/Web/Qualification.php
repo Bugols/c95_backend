@@ -21,7 +21,6 @@ class Qualification extends Resource {
 
     /**
      * @method GET
-     * @json
      */
     public function display() {
         return new Response(Response::OK, $this->service->findById($this->id));
@@ -29,16 +28,14 @@ class Qualification extends Resource {
 
     /**
      * @method PUT
-     * @json
+     * @type C95\Domain\Qualification
      */
     public function update() {
-        $qualification = $this->deserializeToObject($this->request->data, 'C95\Domain\Qualification');
-        return new Response(Response::OK, $this->service->update($qualification));
+        return new Response(Response::OK, $this->service->update($this->request->data));
     }
 
     /**
      * @method DELETE
-     * @json
      */
     public function remove() {
         return new Response(Response::OK, $this->service->remove($this->id));

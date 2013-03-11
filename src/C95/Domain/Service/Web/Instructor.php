@@ -21,7 +21,6 @@ class Instructor extends Resource {
 
     /**
      * @method GET
-     * @json
      */
     public function display() {
         return new Response(Response::OK, $this->service->findById($this->id));
@@ -29,16 +28,14 @@ class Instructor extends Resource {
 
     /**
      * @method PUT
-     * @json
+     * @type C95\Domain\Instructor
      */
     public function update() {
-        $instructor = $this->deserializeToObject($this->request->data, 'C95\Domain\Instructor');
-        return new Response(Response::OK, $this->service->update($instructor));
+        return new Response(Response::OK, $this->service->update($this->request->data));
     }
 
     /**
      * @method DELETE
-     * @json
      */
     public function remove() {
         return new Response(Response::OK, $this->service->remove($this->id));

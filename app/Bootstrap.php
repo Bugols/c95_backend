@@ -13,6 +13,10 @@ use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\Construction\UnserializeObjectConstructor;
 use C95\Infrastructure\JMS\Serializer\Construction\DoctrineObjectConstructor;
 
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Mapping\ClassMetadataFactory;
+use Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader;
+
 /**
  * @todo Add configuration
  */
@@ -36,6 +40,7 @@ class Bootstrap {
     public function run() {
         $this->initDocumentManager();
         $this->initSerializer();
+        $this->initValidator();
 
         return $this->container;
     }
@@ -62,9 +67,30 @@ class Bootstrap {
             $serializer = SerializerBuilder::create()
                 ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy())
                 ->setObjectConstructor(new DoctrineObjectConstructor($container['odm'], new UnserializeObjectConstructor()))
-                ->addMetadataDir(__DIR__ . '/../src/C95/Domain/Config/TransferObject', 'C95\Domain')
+                ->addMetadataDir(__DIR__ . '/../src/C95/Domain/Config/Serializer', 'C95\Domain')
                 ->build();
             return $serializer;
+        });
+    }
+
+    protected function initValidator() {
+        $this->container['validator'] = $this->container->share(function($container) {
+            $validator = Validation::createValidatorBuilder();
+
+            $metadataFiles = array();
+            $metadataDirectory = new DirectoryIterator(__DIR__ . '/../src/C95/Domain/Config/Validation/');
+
+            /** @var $metadataFile DirectoryIterator */
+            foreach($metadataDirectory as $metadataFile) {
+                if($metadataFile->isDot()) { continue; }
+
+                array_push($metadataFiles, $metadataFile->getPathname());
+            }
+
+            $classMetadataFactory = new ClassMetadataFactory(new YamlFilesLoader($metadataFiles));
+            $validator->setMetadataFactory($classMetadataFactory);
+
+            return $validator->getValidator();
         });
     }
 

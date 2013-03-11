@@ -21,7 +21,6 @@ class InstructorCollection extends Resource {
 
 	/**
 	 * @method GET
-     * @json
 	 */
 	public function all() {
         return new Response(Response::OK, $this->service->findAll());
@@ -29,11 +28,10 @@ class InstructorCollection extends Resource {
 
     /**
      * @method POST
-     * @json
+     * @type C95\Domain\Instructor
      */
     public function create() {
-        $instructor = $this->deserializeToObject($this->request->data, 'C95\Domain\Instructor');
-        return new Response(Response::OK, $this->service->create($instructor));
+        return new Response(Response::OK, $this->service->create($this->request->data));
     }
 
 }

@@ -21,7 +21,6 @@ class QualificationCollection extends Resource {
 
 	/**
 	 * @method GET
-     * @json
 	 */
 	public function all() {
         return new Response(Response::OK, $this->service->findAll());
@@ -29,7 +28,7 @@ class QualificationCollection extends Resource {
 
     /**
      * @method POST
-     * @json
+     * @type C95\Domain\Qualification
      */
     public function create() {
         $qualification = $this->deserializeToObject($this->request->data, 'C95\Domain\Qualification');

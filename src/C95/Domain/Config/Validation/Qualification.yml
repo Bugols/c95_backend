@@ -1,0 +1,4 @@
+C95\Domain\Qualification:
+  properties:
+    name:
+      - NotBlank: ~

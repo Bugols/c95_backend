@@ -1,5 +1,5 @@
 {
-    "hash": "d5d1bd3b4df3ef90f9917c27d8b7092d",
+    "hash": "3114be55ea27b040b98b394027334a09",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -250,7 +250,7 @@
         },
         {
             "name": "doctrine/mongodb-odm",
-            "version": "dev-master",
+            "version": "1.0.0-BETA8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
@@ -473,12 +473,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/peej/tonic.git",
-                "reference": "a848c7999cb3e458ff9fca372a90e3e154a5cf4e"
+                "reference": "95c3e3024abec64d00a80b75a51e930133a999ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/peej/tonic/zipball/a848c7999cb3e458ff9fca372a90e3e154a5cf4e",
-                "reference": "a848c7999cb3e458ff9fca372a90e3e154a5cf4e",
+                "url": "https://api.github.com/repos/peej/tonic/zipball/95c3e3024abec64d00a80b75a51e930133a999ae",
+                "reference": "95c3e3024abec64d00a80b75a51e930133a999ae",
                 "shasum": ""
             },
             "require": {
@@ -514,7 +514,7 @@
                 "microframework",
                 "rest"
             ],
-            "time": "2013-02-24 21:25:18"
+            "time": "2013-03-06 21:14:19"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -660,6 +660,53 @@
                 "dependency injection"
             ],
             "time": "2012-11-11 08:32:34"
+        },
+        {
+            "name": "symfony/config",
+            "version": "v2.2.0",
+            "target-dir": "Symfony/Component/Config",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Config.git",
+                "reference": "v2.2.0-RC3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Config/zipball/v2.2.0-RC3",
+                "reference": "v2.2.0-RC3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Config\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Config Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-02-17 12:27:42"
         },
         {
             "name": "symfony/console",
@@ -872,7 +919,9 @@
             "time": "2013-01-27 16:49:19"
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [
+
+    ],
     "aliases": [
 
     ],

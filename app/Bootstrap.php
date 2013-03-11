@@ -17,6 +17,11 @@ use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Mapping\ClassMetadataFactory;
 use Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader;
 
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\MessageSelector;
+use Symfony\Component\Translation\Loader\XliffFileLoader;
+use Symfony\Component\Translation\Loader\ArrayLoader;
+
 /**
  * @todo Add configuration
  */
@@ -76,6 +81,16 @@ class Bootstrap {
     protected function initValidator() {
         $this->container['validator'] = $this->container->share(function($container) {
             $validator = Validation::createValidatorBuilder();
+
+            $translator = new Translator('nl', new MessageSelector());
+            $translator->setFallbackLocale('nl');
+            $translator->addLoader('array', new ArrayLoader());
+            $translator->addLoader('xliff', new XliffFileLoader());
+
+            $translator->addResource('xliff', __DIR__.'/../vendor/symfony/validator/Symfony/Component/Validator/Resources/translations/validators.nl.xlf', 'nl');
+
+            $validator->setTranslator($translator);
+            $validator->setTranslationDomain('messages');
 
             $metadataFiles = array();
             $metadataDirectory = new DirectoryIterator(__DIR__ . '/../src/C95/Domain/Config/Validation/');

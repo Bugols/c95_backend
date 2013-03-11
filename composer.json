@@ -9,6 +9,7 @@
 		"pimple/pimple": "v1.0.1",
         "jms/serializer": "dev-master",
         "symfony/yaml": "v2.2.0",
-        "symfony/validator": "v2.2.0"
+        "symfony/validator": "v2.2.0",
+        "symfony/config": "v2.2.0"
 	}
 }
